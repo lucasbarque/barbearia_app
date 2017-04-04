@@ -1,9 +1,11 @@
 package br.estacio.cadastrodeclientes;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import br.estacio.cadastrodeclientes.dao.ClienteDAO;
 import br.estacio.cadastrodeclientes.model.Cliente;
 
 /**
@@ -21,7 +23,7 @@ public class ClienteHelper {
 
     private Cliente cliente;
 
-    public ClienteHelper(ClienteActivity activity) {
+    public ClienteHelper(final ClienteActivity activity) {
         this.activity = activity;
         edtNome = (EditText) activity.findViewById(R.id.edtNome);
         edtMail = (EditText) activity.findViewById(R.id.edtMail);
@@ -32,6 +34,19 @@ public class ClienteHelper {
         edtCidade = (EditText) activity.findViewById(R.id.edtCidade);
         rgSexo = (RadioGroup) activity.findViewById(R.id.rgSexo);
         btnSalvarCliente = (Button) activity.findViewById(R.id.btnSalvarCliente);
+        btnSalvarCliente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClienteDAO dao = new ClienteDAO(activity);
+                cliente = carregaDadosDaTela();
+                if (cliente.getId() == 0) {
+                    dao.insert(cliente);
+                }
+                else {
+                    dao.update(cliente);
+                }
+            }
+        });
 
         cliente = (Cliente) activity.getIntent().getSerializableExtra("clienteSelecionado");
         if (cliente != null) {

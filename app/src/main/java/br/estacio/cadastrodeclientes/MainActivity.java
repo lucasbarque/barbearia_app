@@ -26,11 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listaCliente = (ListView) findViewById(R.id.listaCliente);
-        /*final String[] clientes = new String[] {
-                "Carlos", "Marcelo", "Vinicius", "Caio", "Willian",
-                "Thiago", "Paulo", "Willians", "Breno", "Julio",
-                "Ademar", "Fernando", "Lucas"
-        };*/
 
         Cliente c1 = new Cliente();
         c1.setNome("Carlos");
