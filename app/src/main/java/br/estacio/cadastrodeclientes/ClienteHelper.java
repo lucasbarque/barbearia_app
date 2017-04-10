@@ -39,11 +39,13 @@ public class ClienteHelper {
             public void onClick(View v) {
                 ClienteDAO dao = new ClienteDAO(activity);
                 cliente = carregaDadosDaTela();
-                if (cliente.getId() == 0) {
-                    dao.insert(cliente);
-                }
-                else {
-                    dao.update(cliente);
+                if (validate()) {
+                    if (cliente.getId() == 0) {
+                        dao.insert(cliente);
+                    } else {
+                        dao.update(cliente);
+                    }
+                    activity.finish();
                 }
             }
         });
@@ -55,7 +57,6 @@ public class ClienteHelper {
     }
 
     public Cliente carregaDadosDaTela() {
-        cliente = new Cliente();
         cliente.setNome(edtNome.getText().toString());
         cliente.setEmail(edtMail.getText().toString());
         cliente.setFone(edtFone.getText().toString());
@@ -77,5 +78,18 @@ public class ClienteHelper {
         edtNumero.setText(cliente.getNumero());
         edtCidade.setText(cliente.getCidade());
         rgSexo.check(cliente.getSexo());
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+        if (edtNome.getText().toString().trim().isEmpty()) {
+            edtNome.setError("Campo nome é obrigatório!");
+            valid = false;
+        }
+        if (edtMail.getText().toString().trim().isEmpty()) {
+            edtMail.setError("Campo e-mail é obrigatório!");
+            valid = false;
+        }
+        return valid;
     }
 }
