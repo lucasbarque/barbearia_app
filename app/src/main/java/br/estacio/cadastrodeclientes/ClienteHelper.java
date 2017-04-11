@@ -75,6 +75,7 @@ public class ClienteHelper {
         cliente.setNumero(edtNumero.getText().toString());
         cliente.setCidade(edtCidade.getText().toString());
         cliente.setSexo(rgSexo.getCheckedRadioButtonId() == R.id.feminino ? 0 : 1);
+        cliente.setCaminhoFoto((String) foto.getTag());
         return cliente;
     }
 
@@ -88,6 +89,7 @@ public class ClienteHelper {
         edtNumero.setText(cliente.getNumero());
         edtCidade.setText(cliente.getCidade());
         rgSexo.check(cliente.getSexo() == 0 ? R.id.feminino : R.id.masculino);
+        setImage(cliente.getCaminhoFoto());
     }
 
     public boolean validate() {

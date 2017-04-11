@@ -1,6 +1,8 @@
 package br.estacio.cadastrodeclientes.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -57,6 +59,15 @@ public class ClienteAdapater extends BaseAdapter {
         txtNomeCliente.setText(cliente.getNome());
         txtMailCliente.setText(cliente.getEmail());
         txtFoneCliente.setText(cliente.getFone());
+        Bitmap bm;
+        if (cliente.getCaminhoFoto() != null) {
+            bm = BitmapFactory.decodeFile(cliente.getCaminhoFoto());
+        }
+        else {
+            bm = BitmapFactory.decodeResource(activity.getResources(),
+                    R.mipmap.ic_no_image);
+        }
+        foto.setImageBitmap(bm);
 
 
         return layout;
