@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class ClienteAdapater extends BaseAdapter {
     private Activity activity;
     private List<Cliente> list;
 
-    private TextView txtNomeCliente, txtFoneCliente;
+    private TextView txtNomeCliente, txtFoneCliente, txtMailCliente;
+    private ImageView foto;
 
     public ClienteAdapater(Activity activity, List<Cliente> list) {
         this.activity = activity;
@@ -46,12 +48,16 @@ public class ClienteAdapater extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View layout = activity.getLayoutInflater().inflate(R.layout.cliente, parent, false);
 
+        foto = (ImageView) layout.findViewById(R.id.itemFoto);
         txtNomeCliente = (TextView) layout.findViewById(R.id.txtNomeCliente);
+        txtMailCliente = (TextView) layout.findViewById(R.id.txtMailCliente);
         txtFoneCliente = (TextView) layout.findViewById(R.id.txtFoneCliente);
 
         Cliente cliente = getItem(position);
         txtNomeCliente.setText(cliente.getNome());
+        txtMailCliente.setText(cliente.getEmail());
         txtFoneCliente.setText(cliente.getFone());
+
 
         return layout;
     }

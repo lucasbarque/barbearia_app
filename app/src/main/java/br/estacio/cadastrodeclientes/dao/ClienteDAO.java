@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import br.estacio.cadastrodeclientes.model.Cliente;
 public class ClienteDAO extends SQLiteOpenHelper {
 
     final static String DATABASE = "CLIENTES";
-    final static int VERSION = 1;
+    final static int VERSION = 2;
     final static String TABLE = "cliente";
 
     public ClienteDAO(Context context) {
@@ -38,12 +37,18 @@ public class ClienteDAO extends SQLiteOpenHelper {
                 "cep text, " +
                 "numero text, " +
                 "sexo integer, " +
-                "cidade text);";
+                "cidade text," +
+                "caminhoFoto text);";
         db.execSQL(ddlCliente);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion == 1 && newVersion >= 2) {
+            String ddl = "ALTER TABLE " + TABLE +
+                    " ADD COLUMN caminhoFoto TEXT";
+            db.execSQL(ddl);
+        }
 
     }
 
@@ -58,12 +63,12 @@ public class ClienteDAO extends SQLiteOpenHelper {
         values.put("numero", cliente.getNumero());
         values.put("sexo", cliente.getSexo());
         values.put("cidade", cliente.getCidade());
+        values.put("caminhoFoto", cliente.getCaminhoFoto());
         return values;
     }
 
     public void insert(Cliente cliente) {
         getWritableDatabase().insert(TABLE, null, getValues(cliente));
-        Log.i("INSERT", "**** inserindo dados do cliente *******");
     }
 
     public void update(Cliente cliente) {
@@ -110,6 +115,7 @@ public class ClienteDAO extends SQLiteOpenHelper {
         cliente.setNumero(c.getString(c.getColumnIndex("numero")));
         cliente.setSexo(c.getInt(c.getColumnIndex("sexo")));
         cliente.setCidade(c.getString(c.getColumnIndex("cidade")));
+        cliente.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
         return cliente;
     }
 }

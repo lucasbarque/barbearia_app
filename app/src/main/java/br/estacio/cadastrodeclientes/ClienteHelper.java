@@ -1,8 +1,11 @@
 package br.estacio.cadastrodeclientes;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 import br.estacio.cadastrodeclientes.dao.ClienteDAO;
@@ -19,7 +22,8 @@ public class ClienteHelper {
     private EditText edtNome, edtMail, edtFone, edtCEP, edtEndereco,
     edtNumero, edtCidade;
     private RadioGroup rgSexo;
-    private Button btnSalvarCliente;
+    private Button btnSalvarCliente, btnFoto;
+    private ImageView foto;
 
     private Cliente cliente;
 
@@ -50,6 +54,8 @@ public class ClienteHelper {
                 }
             }
         });
+        foto = (ImageView) activity.findViewById(R.id.foto);
+        btnFoto = (Button) activity.findViewById(R.id.formFotoButton);
 
         cliente = (Cliente) activity.getIntent().getSerializableExtra("clienteSelecionado");
         if (cliente != null) {
@@ -96,4 +102,21 @@ public class ClienteHelper {
         }
         return valid;
     }
+
+    public Button getBtnFoto() {
+        return btnFoto;
+    }
+
+    public void setImage(String localArquivoFoto) {
+        if (localArquivoFoto != null) {
+            Bitmap imagemFoto = BitmapFactory.decodeFile(localArquivoFoto);
+            Bitmap imagemFotoReduzida = Bitmap
+                    .createScaledBitmap(imagemFoto, imagemFoto.getWidth(),
+                            300, true);
+            foto.setImageBitmap(imagemFotoReduzida);
+            foto.setTag(localArquivoFoto);
+            foto.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
+    }
+
 }

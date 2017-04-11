@@ -17,6 +17,7 @@ public class Cliente implements Serializable {
     private String numero;
     private String cidade;
     private int sexo;
+    private String caminhoFoto;
 
     public long getId() {
         return id;
@@ -93,5 +94,13 @@ public class Cliente implements Serializable {
     @Override
     public String toString() {
         return nome;
+    }
+
+    public String getCaminhoFoto() {
+        return caminhoFoto;
+    }
+
+    public void setCaminhoFoto(String caminhoFoto) {
+        this.caminhoFoto = caminhoFoto;
     }
 }
