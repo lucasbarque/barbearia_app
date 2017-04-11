@@ -37,14 +37,15 @@ public class ClienteHelper {
         btnSalvarCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClienteDAO dao = new ClienteDAO(activity);
                 cliente = carregaDadosDaTela();
                 if (validate()) {
+                    ClienteDAO dao = new ClienteDAO(activity);
                     if (cliente.getId() == 0) {
                         dao.insert(cliente);
                     } else {
                         dao.update(cliente);
                     }
+                    dao.close();
                     activity.finish();
                 }
             }
@@ -53,6 +54,9 @@ public class ClienteHelper {
         cliente = (Cliente) activity.getIntent().getSerializableExtra("clienteSelecionado");
         if (cliente != null) {
             carregaDadosParaTela(cliente);
+        }
+        else {
+            cliente = new Cliente();
         }
     }
 
@@ -77,7 +81,7 @@ public class ClienteHelper {
         edtEndereco.setText(cliente.getEndereco());
         edtNumero.setText(cliente.getNumero());
         edtCidade.setText(cliente.getCidade());
-        rgSexo.check(cliente.getSexo());
+        rgSexo.check(cliente.getSexo() == 0 ? R.id.feminino : R.id.masculino);
     }
 
     public boolean validate() {

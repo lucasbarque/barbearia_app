@@ -3,6 +3,8 @@ package br.estacio.cadastrodeclientes;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -49,16 +51,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        registerForContextMenu(listaCliente);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        carregaLista();
+    }
+
+
+    private void carregaLista() {
         ClienteDAO dao = new ClienteDAO(this);
         clientes = dao.list();
         dao.close();
 
         adapter = new ClienteAdapater(this, clientes);
         listaCliente.setAdapter(adapter);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Cliente clienteSeCliente = adapter.getItem(info.position);
+        MenuItem deletar = menu.add("Deletar");
+        deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ClienteDAO dao = new ClienteDAO(MainActivity.this);
+                dao.delete(clienteSeCliente.getId());
+                dao.close();
+                carregaLista();
+                return false;
+            }
+        });
     }
 }

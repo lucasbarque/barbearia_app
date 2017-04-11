@@ -71,8 +71,8 @@ public class ClienteDAO extends SQLiteOpenHelper {
         getWritableDatabase().update(TABLE, getValues(cliente), "id=?", args);
     }
 
-    public void delete (String id) {
-        String[] args = { id };
+    public void delete (Long id) {
+        String[] args = { id.toString() };
         getWritableDatabase().delete (TABLE, "id=?", args);
     }
 
