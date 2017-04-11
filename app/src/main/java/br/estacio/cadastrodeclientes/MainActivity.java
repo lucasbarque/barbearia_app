@@ -76,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        final Cliente clienteSeCliente = adapter.getItem(info.position);
+        final Cliente clienteSelecionado = adapter.getItem(info.position);
         MenuItem deletar = menu.add("Deletar");
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 ClienteDAO dao = new ClienteDAO(MainActivity.this);
-                dao.delete(clienteSeCliente.getId());
+                dao.delete(clienteSelecionado.getId());
                 dao.close();
                 carregaLista();
                 return false;
