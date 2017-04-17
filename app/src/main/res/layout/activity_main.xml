@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.estacio.cadastrodeclientes.MainActivity"
-    android:background="#aeaaaa">
+    tools:context="br.estacio.cadastrodeclientes.MainActivity">
 
     <ListView
         android:id="@+id/listaCliente"

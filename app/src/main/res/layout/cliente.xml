@@ -2,19 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:padding="10dp">
+    android:layout_height="50dp"
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/itemFoto"
-        android:layout_width="70dp"
-        android:layout_height="70dp"/>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/foto"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="10dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -22,14 +24,14 @@
                 android:id="@+id/txtNomeCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/txtMailCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:textColor="#0000FF"
                 android:layout_below="@id/txtNomeCliente"/>
 
@@ -40,8 +42,8 @@
                 android:textSize="10sp"
                 android:textColor="#FF0000"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_below="@id/txtMailCliente"/>
+                android:layout_marginRight="5dp"
+                android:layout_below="@id/txtNomeCliente"/>
         </RelativeLayout>
     </LinearLayout>
 

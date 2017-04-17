@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.estacio.cadastrodeclientes.ImageCircle;
 import br.estacio.cadastrodeclientes.R;
 import br.estacio.cadastrodeclientes.model.Cliente;
 
@@ -67,9 +68,8 @@ public class ClienteAdapater extends BaseAdapter {
             bm = BitmapFactory.decodeResource(activity.getResources(),
                     R.mipmap.ic_no_image);
         }
-        foto.setImageBitmap(bm);
-
-
+        foto.setImageBitmap(ImageCircle.crop(bm));
         return layout;
     }
+
 }
