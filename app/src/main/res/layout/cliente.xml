@@ -20,22 +20,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
+            <br.estacio.cadastrodeclientes.component.UbuntuBoldTextView
                 android:id="@+id/txtNomeCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-            <TextView
+                android:textColor="#000000" />
+            <br.estacio.cadastrodeclientes.component.UbuntuTextViewAzul
                 android:id="@+id/txtMailCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
-                android:textColor="#0000FF"
                 android:layout_below="@id/txtNomeCliente"/>
 
-            <TextView
+            <br.estacio.cadastrodeclientes.component.UbuntuTextView
                 android:id="@+id/txtFoneCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
