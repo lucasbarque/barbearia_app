@@ -1,5 +1,6 @@
 package br.estacio.cadastrodeclientes;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -9,12 +10,16 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-public class ClienteActivity extends AppCompatActivity {
+public class ClienteActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener {
 
     private ClienteHelper helper;
     private static final int TIRAR_FOTO = 1;
@@ -83,4 +88,9 @@ public class ClienteActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        helper.onDateSet(view, year, month, day);
+    }
 }

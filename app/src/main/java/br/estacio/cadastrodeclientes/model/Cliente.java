@@ -1,6 +1,7 @@
 package br.estacio.cadastrodeclientes.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * Created by carlos on 27/03/17.
@@ -11,6 +12,7 @@ public class Cliente implements Serializable {
     private long id;
     private String nome;
     private String email;
+    private Calendar dataNasc;
     private String fone;
     private String CEP;
     private String endereco;
@@ -91,9 +93,12 @@ public class Cliente implements Serializable {
         this.sexo = sexo;
     }
 
-    @Override
-    public String toString() {
-        return nome;
+    public Calendar getDataNasc() {
+        return dataNasc;
+    }
+
+    public void setDataNasc(Calendar dataNasc) {
+        this.dataNasc = dataNasc;
     }
 
     public String getCaminhoFoto() {
@@ -103,4 +108,10 @@ public class Cliente implements Serializable {
     public void setCaminhoFoto(String caminhoFoto) {
         this.caminhoFoto = caminhoFoto;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
 }

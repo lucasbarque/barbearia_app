@@ -2,11 +2,18 @@ package br.estacio.cadastrodeclientes;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import br.estacio.cadastrodeclientes.dao.ClienteDAO;
 import br.estacio.cadastrodeclientes.model.Cliente;
@@ -19,8 +26,10 @@ public class ClienteHelper {
 
     private ClienteActivity activity;
 
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     private EditText edtNome, edtMail, edtFone, edtCEP, edtEndereco,
-    edtNumero, edtCidade;
+            edtNumero, edtCidade, edtDataNasc;
     private RadioGroup rgSexo;
     private Button btnSalvarCliente, btnFoto;
     private ImageView foto;
@@ -30,6 +39,13 @@ public class ClienteHelper {
     public ClienteHelper(final ClienteActivity activity) {
         this.activity = activity;
         edtNome = (EditText) activity.findViewById(R.id.edtNome);
+        edtDataNasc = (EditText) activity.findViewById(R.id.edtDataNasc);
+        edtDataNasc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePicker(v);
+            }
+        });
         edtMail = (EditText) activity.findViewById(R.id.edtMail);
         edtFone = (EditText) activity.findViewById(R.id.edtFone);
         edtCEP = (EditText) activity.findViewById(R.id.edtCEP);
@@ -76,6 +92,7 @@ public class ClienteHelper {
         cliente.setCidade(edtCidade.getText().toString());
         cliente.setSexo(rgSexo.getCheckedRadioButtonId() == R.id.feminino ? 0 : 1);
         cliente.setCaminhoFoto((String) foto.getTag());
+        cliente.setDataNasc(getDate());
         return cliente;
     }
 
@@ -90,12 +107,17 @@ public class ClienteHelper {
         edtCidade.setText(cliente.getCidade());
         rgSexo.check(cliente.getSexo() == 0 ? R.id.feminino : R.id.masculino);
         setImage(cliente.getCaminhoFoto());
+        setDate(cliente.getDataNasc());
     }
 
     public boolean validate() {
         boolean valid = true;
         if (edtNome.getText().toString().trim().isEmpty()) {
             edtNome.setError("Campo nome é obrigatório!");
+            valid = false;
+        }
+        if (edtDataNasc.getText().toString().trim().isEmpty()) {
+            edtDataNasc.setError("Campo data de nascimento é obrigatório!");
             valid = false;
         }
         if (edtMail.getText().toString().trim().isEmpty()) {
@@ -119,6 +141,39 @@ public class ClienteHelper {
             foto.setTag(localArquivoFoto);
             foto.setScaleType(ImageView.ScaleType.FIT_XY);
         }
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        Calendar cal = new GregorianCalendar(year, month, day);
+        setDate(cal);
+    }
+
+    private void setDate(Calendar calendar) {
+        try {
+            edtDataNasc.setText(dateFormat.format(calendar.getTime()));
+        }
+        catch (Exception e) {
+            edtDataNasc.setText(dateFormat.format(new Date()));
+        }
+    }
+
+    private Calendar getDate() {
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(dateFormat.parse(edtDataNasc.getText().toString()));
+        }
+        catch (Exception e) {
+            c.setTime(new Date());
+        }
+        return c;
+    }
+
+    public void datePicker(View view){
+        DatePickerFragment fragment = new DatePickerFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("calendar", cliente.getDataNasc());
+        fragment.setArguments(args);
+        fragment.show(activity.getFragmentManager(), "");
     }
 
 }

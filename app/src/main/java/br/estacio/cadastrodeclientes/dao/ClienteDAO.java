@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.estacio.cadastrodeclientes.model.Cliente;
@@ -19,8 +21,11 @@ import br.estacio.cadastrodeclientes.model.Cliente;
 public class ClienteDAO extends SQLiteOpenHelper {
 
     final static String DATABASE = "CLIENTES";
-    final static int VERSION = 2;
+    final static int VERSION = 3;
     final static String TABLE = "cliente";
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    private Calendar calendar = Calendar.getInstance();
 
     public ClienteDAO(Context context) {
         super(context, DATABASE, null, VERSION);
@@ -38,7 +43,8 @@ public class ClienteDAO extends SQLiteOpenHelper {
                 "numero text, " +
                 "sexo integer, " +
                 "cidade text," +
-                "caminhoFoto text);";
+                "caminhoFoto text," +
+                "dataNasc text);";
         db.execSQL(ddlCliente);
     }
 
@@ -46,7 +52,12 @@ public class ClienteDAO extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion == 1 && newVersion >= 2) {
             String ddl = "ALTER TABLE " + TABLE +
-                    " ADD COLUMN caminhoFoto TEXT";
+                    " ADD COLUMN caminhoFoto text;";
+            db.execSQL(ddl);
+        }
+        if (newVersion >= 3) {
+            String ddl = "ALTER TABLE " + TABLE +
+                    " ADD COLUMN dataNasc text;";
             db.execSQL(ddl);
         }
 
@@ -64,6 +75,7 @@ public class ClienteDAO extends SQLiteOpenHelper {
         values.put("sexo", cliente.getSexo());
         values.put("cidade", cliente.getCidade());
         values.put("caminhoFoto", cliente.getCaminhoFoto());
+        values.put("dataNasc", dateFormat.format(cliente.getDataNasc().getTime()));
         return values;
     }
 
@@ -116,6 +128,13 @@ public class ClienteDAO extends SQLiteOpenHelper {
         cliente.setSexo(c.getInt(c.getColumnIndex("sexo")));
         cliente.setCidade(c.getString(c.getColumnIndex("cidade")));
         cliente.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
+        try {
+            calendar.setTime(dateFormat.parse(c.getString(c.getColumnIndex("dataNasc"))));
+            cliente.setDataNasc(calendar);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return cliente;
     }
 }
