@@ -1,18 +1,17 @@
 package br.estacio.cadastrodeclientes;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.estacio.cadastrodeclientes.adapter.ClienteAdapater;
@@ -81,12 +80,33 @@ public class MainActivity extends AppCompatActivity {
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                ClienteDAO dao = new ClienteDAO(MainActivity.this);
-                dao.delete(clienteSelecionado.getId());
-                dao.close();
-                carregaLista();
+                confirmaRemocao(clienteSelecionado);
                 return false;
             }
         });
     }
+
+    private void confirmaRemocao(final Cliente clienteSelecionado) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            dialogBuilder.setTitle("Remoção");
+            dialogBuilder.setMessage(
+                    String.format("Confirma a remoção do cliente %s?",
+                            clienteSelecionado.getNome()));
+            dialogBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    ClienteDAO dao = new ClienteDAO(MainActivity.this);
+                    dao.delete(clienteSelecionado.getId());
+                    dao.close();
+                    carregaLista();
+                    dialog.cancel();
+                }
+            });
+            dialogBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    dialog.cancel();
+                }
+            });
+            dialogBuilder.create().show();
+    }
+
 }

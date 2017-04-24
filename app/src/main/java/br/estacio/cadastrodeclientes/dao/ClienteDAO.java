@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import br.estacio.cadastrodeclientes.model.Cliente;
@@ -130,11 +131,11 @@ public class ClienteDAO extends SQLiteOpenHelper {
         cliente.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
         try {
             calendar.setTime(dateFormat.parse(c.getString(c.getColumnIndex("dataNasc"))));
-            cliente.setDataNasc(calendar);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            calendar.setTime(new Date());
         }
+        cliente.setDataNasc(calendar);
         return cliente;
     }
 }
