@@ -4,16 +4,23 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import br.estacio.cadastrodeclientes.dao.ClienteDAO;
 import br.estacio.cadastrodeclientes.model.Cliente;
@@ -34,10 +41,17 @@ public class ClienteHelper {
     private Button btnSalvarCliente, btnFoto;
     private ImageView foto;
 
+    private Spinner spinnerEstadoCivil;
+    private List<String> estadoCivil = Arrays.asList(
+            new String[]{" -> Selecione <- ", "Solteiro", "Casado", "Divorciado", "Viúvo", "União Estável"});
+    private ArrayAdapter<String> adapter;
+    private String estadoCivilSelecionado;
+
     private Cliente cliente;
 
     public ClienteHelper(final ClienteActivity activity) {
         this.activity = activity;
+        adapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, estadoCivil);
         edtNome = (EditText) activity.findViewById(R.id.edtNome);
         edtDataNasc = (EditText) activity.findViewById(R.id.edtDataNasc);
         edtDataNasc.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +67,19 @@ public class ClienteHelper {
         edtNumero = (EditText) activity.findViewById(R.id.edtNumero);
         edtCidade = (EditText) activity.findViewById(R.id.edtCidade);
         rgSexo = (RadioGroup) activity.findViewById(R.id.rgSexo);
+        spinnerEstadoCivil = (Spinner) activity.findViewById(R.id.spinnerEstadoCivil);
+        spinnerEstadoCivil.setAdapter(adapter);
+        spinnerEstadoCivil.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                estadoCivilSelecionado = adapter.getItem(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         btnSalvarCliente = (Button) activity.findViewById(R.id.btnSalvarCliente);
         btnSalvarCliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +120,7 @@ public class ClienteHelper {
         cliente.setSexo(rgSexo.getCheckedRadioButtonId() == R.id.feminino ? 0 : 1);
         cliente.setCaminhoFoto((String) foto.getTag());
         cliente.setDataNasc(getDate());
+        cliente.setEstadoCivil(estadoCivilSelecionado);
         return cliente;
     }
 
@@ -108,6 +136,7 @@ public class ClienteHelper {
         rgSexo.check(cliente.getSexo() == 0 ? R.id.feminino : R.id.masculino);
         setImage(cliente.getCaminhoFoto());
         setDate(cliente.getDataNasc());
+        spinnerEstadoCivil.setSelection(estadoCivil.indexOf(cliente.getEstadoCivil()));
     }
 
     public boolean validate() {

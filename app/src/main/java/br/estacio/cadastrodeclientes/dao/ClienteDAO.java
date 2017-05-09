@@ -22,7 +22,7 @@ import br.estacio.cadastrodeclientes.model.Cliente;
 public class ClienteDAO extends SQLiteOpenHelper {
 
     final static String DATABASE = "CLIENTES";
-    final static int VERSION = 3;
+    final static int VERSION = 4;
     final static String TABLE = "cliente";
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -45,7 +45,8 @@ public class ClienteDAO extends SQLiteOpenHelper {
                 "sexo integer, " +
                 "cidade text," +
                 "caminhoFoto text," +
-                "dataNasc text);";
+                "dataNasc text," +
+                "estadoCivil text);";
         db.execSQL(ddlCliente);
     }
 
@@ -56,9 +57,14 @@ public class ClienteDAO extends SQLiteOpenHelper {
                     " ADD COLUMN caminhoFoto text;";
             db.execSQL(ddl);
         }
-        if (newVersion >= 3) {
+        if (oldVersion <= 2 && newVersion >= 3) {
             String ddl = "ALTER TABLE " + TABLE +
                     " ADD COLUMN dataNasc text;";
+            db.execSQL(ddl);
+        }
+        if (oldVersion <= 3 && newVersion >= 4) {
+            String ddl = "ALTER TABLE " + TABLE +
+                    " ADD COLUMN estadoCivil text;";
             db.execSQL(ddl);
         }
 
@@ -76,6 +82,7 @@ public class ClienteDAO extends SQLiteOpenHelper {
         values.put("sexo", cliente.getSexo());
         values.put("cidade", cliente.getCidade());
         values.put("caminhoFoto", cliente.getCaminhoFoto());
+        values.put("estadoCivil", cliente.getEstadoCivil());
         values.put("dataNasc", dateFormat.format(cliente.getDataNasc().getTime()));
         return values;
     }
@@ -136,6 +143,7 @@ public class ClienteDAO extends SQLiteOpenHelper {
             calendar.setTime(new Date());
         }
         cliente.setDataNasc(calendar);
+        cliente.setEstadoCivil(c.getString(c.getColumnIndex("estadoCivil")));
         return cliente;
     }
 }

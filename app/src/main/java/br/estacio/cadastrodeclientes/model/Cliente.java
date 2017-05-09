@@ -20,6 +20,7 @@ public class Cliente implements Serializable {
     private String cidade;
     private int sexo;
     private String caminhoFoto;
+    private String estadoCivil;
 
     public long getId() {
         return id;
@@ -107,6 +108,14 @@ public class Cliente implements Serializable {
 
     public void setCaminhoFoto(String caminhoFoto) {
         this.caminhoFoto = caminhoFoto;
+    }
+
+    public String getEstadoCivil() {
+        return estadoCivil;
+    }
+
+    public void setEstadoCivil(String estadoCivil) {
+        this.estadoCivil = estadoCivil;
     }
 
     @Override
