@@ -20,7 +20,7 @@ public class Cliente implements Serializable {
     private String cidade;
     private int sexo;
     private String caminhoFoto;
-    private String estadoCivil;
+    private EstadoCivil estadoCivil;
 
     public long getId() {
         return id;
@@ -110,17 +110,17 @@ public class Cliente implements Serializable {
         this.caminhoFoto = caminhoFoto;
     }
 
-    public String getEstadoCivil() {
+    public EstadoCivil getEstadoCivil() {
         return estadoCivil;
     }
 
-    public void setEstadoCivil(String estadoCivil) {
+    public void setEstadoCivil(EstadoCivil estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
 
     @Override
     public String toString() {
-        return nome;
+        return nome + " " + estadoCivil.toString();
     }
 
 }

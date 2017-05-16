@@ -12,10 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +22,7 @@ import java.util.List;
 
 import br.estacio.cadastrodeclientes.dao.ClienteDAO;
 import br.estacio.cadastrodeclientes.model.Cliente;
+import br.estacio.cadastrodeclientes.model.EstadoCivil;
 
 /**
  * Created by carlos on 27/03/17.
@@ -42,15 +41,17 @@ public class ClienteHelper {
     private ImageView foto;
 
     private Spinner spinnerEstadoCivil;
-    private List<String> estadoCivil = Arrays.asList(
-            new String[]{" -> Selecione <- ", "Solteiro", "Casado", "Divorciado", "Viúvo", "União Estável"});
-    private ArrayAdapter<String> adapter;
-    private String estadoCivilSelecionado;
+    private List<EstadoCivil> estadoCivil;
+    private ArrayAdapter<EstadoCivil> adapter;
+    private EstadoCivil estadoCivilSelecionado;
 
     private Cliente cliente;
 
     public ClienteHelper(final ClienteActivity activity) {
         this.activity = activity;
+        estadoCivil = Arrays.asList(
+                EstadoCivil.values()
+        );
         adapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, estadoCivil);
         edtNome = (EditText) activity.findViewById(R.id.edtNome);
         edtDataNasc = (EditText) activity.findViewById(R.id.edtDataNasc);
