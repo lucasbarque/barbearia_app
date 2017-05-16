@@ -23,7 +23,7 @@ import br.estacio.cadastrodeclientes.model.EstadoCivil;
 public class ClienteDAO extends SQLiteOpenHelper {
 
     final static String DATABASE = "CLIENTES";
-    final static int VERSION = 8;
+    final static int VERSION = 9;
     final static String TABLE = "cliente";
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -68,8 +68,8 @@ public class ClienteDAO extends SQLiteOpenHelper {
                     " ADD COLUMN estadoCivil text;";
             db.execSQL(ddl);
         }
-        if (oldVersion <= 7 && newVersion >= 8) {
-            String ddl = "UPDATE " + TABLE + " SET estadoCivil = substr(estadoCivil, 0, 1);";
+        if (oldVersion <= 8 && newVersion >= 9) {
+            String ddl = "UPDATE " + TABLE + " SET estadoCivil = 'S';";
             db.execSQL(ddl);
         }
 
