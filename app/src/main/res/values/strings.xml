@@ -7,4 +7,6 @@
         <item>Viúvo</item>
         <item>União Estável</item>
     </string-array>
+    <string name="nome">Nome</string>
+    <string name="dataNasc">Data de Nascimento</string>
 </resources>

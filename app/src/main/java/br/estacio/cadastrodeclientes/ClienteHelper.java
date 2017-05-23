@@ -23,6 +23,8 @@ import java.util.List;
 import br.estacio.cadastrodeclientes.dao.ClienteDAO;
 import br.estacio.cadastrodeclientes.model.Cliente;
 import br.estacio.cadastrodeclientes.model.EstadoCivil;
+import br.estacio.cadastrodeclientes.task.SaveClienteTask;
+import br.estacio.cadastrodeclientes.ws.WebRequest;
 
 /**
  * Created by carlos on 27/03/17.
@@ -93,6 +95,7 @@ public class ClienteHelper {
                     } else {
                         dao.update(cliente);
                     }
+                    new SaveClienteTask(activity, cliente).execute();
                     dao.close();
                     activity.finish();
                 }
