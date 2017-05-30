@@ -26,9 +26,6 @@ import br.estacio.cadastrodeclientes.model.EstadoCivil;
 import br.estacio.cadastrodeclientes.task.SaveClienteTask;
 import br.estacio.cadastrodeclientes.ws.WebRequest;
 
-/**
- * Created by carlos on 27/03/17.
- */
 
 public class ClienteHelper {
 
