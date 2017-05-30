@@ -13,17 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 import br.estacio.cadastrodeclientes.model.Cliente;
-import br.estacio.cadastrodeclientes.model.EstadoCivil;
+import br.estacio.cadastrodeclientes.model.Procedimento;
 
-
-/**
- * Created by carlos on 03/04/17.
- */
 
 public class ClienteDAO extends SQLiteOpenHelper {
 
     final static String DATABASE = "CLIENTES";
-    final static int VERSION = 9;
+    final static int VERSION = 1;
     final static String TABLE = "cliente";
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -38,40 +34,21 @@ public class ClienteDAO extends SQLiteOpenHelper {
         String ddlCliente = "create table cliente (" +
                 "id integer not null primary key autoincrement," +
                 "nome text not null, " +
-                "endereco text, " +
                 "fone text, " +
-                "email text, " +
-                "cep text, " +
-                "numero text, " +
-                "sexo integer, " +
-                "cidade text," +
                 "caminhoFoto text," +
                 "dataNasc text," +
-                "estadoCivil text);";
+                "procedimento text);";
         db.execSQL(ddlCliente);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion == 1 && newVersion >= 2) {
-            String ddl = "ALTER TABLE " + TABLE +
-                    " ADD COLUMN caminhoFoto text;";
-            db.execSQL(ddl);
-        }
-        if (oldVersion <= 2 && newVersion >= 3) {
-            String ddl = "ALTER TABLE " + TABLE +
-                    " ADD COLUMN dataNasc text;";
-            db.execSQL(ddl);
-        }
-        if (oldVersion <= 3 && newVersion >= 4) {
-            String ddl = "ALTER TABLE " + TABLE +
-                    " ADD COLUMN estadoCivil text;";
-            db.execSQL(ddl);
-        }
-        if (oldVersion <= 8 && newVersion >= 9) {
-            String ddl = "UPDATE " + TABLE + " SET estadoCivil = 'S';";
-            db.execSQL(ddl);
-        }
+
+
+//        if (oldVersion <= 8 && newVersion >= 9) {
+//            String ddl = "UPDATE " + TABLE + " SET estadoCivil = 'S';";
+//            db.execSQL(ddl);
+//        }
 
     }
 
@@ -79,15 +56,9 @@ public class ClienteDAO extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put("nome", cliente.getNome());
-        values.put("endereco", cliente.getEndereco());
         values.put("fone", cliente.getFone());
-        values.put("email",  cliente.getEmail());
-        values.put("cep", cliente.getCEP());
-        values.put("numero", cliente.getNumero());
-        values.put("sexo", cliente.getSexo());
-        values.put("cidade", cliente.getCidade());
         values.put("caminhoFoto", cliente.getCaminhoFoto());
-        values.put("estadoCivil", cliente.getEstadoCivil().name());
+        values.put("procedimento", cliente.getProcedimento().name());
         values.put("dataNasc", dateFormat.format(cliente.getDataNasc().getTime()));
         return values;
     }
@@ -133,13 +104,7 @@ public class ClienteDAO extends SQLiteOpenHelper {
         Cliente cliente = new Cliente();
         cliente.setId(c.getLong(c.getColumnIndex("id")));
         cliente.setNome(c.getString(c.getColumnIndex("nome")));
-        cliente.setEndereco(c.getString(c.getColumnIndex("endereco")));
         cliente.setFone(c.getString(c.getColumnIndex("fone")));
-        cliente.setEmail(c.getString(c.getColumnIndex("email")));
-        cliente.setCEP(c.getString(c.getColumnIndex("cep")));
-        cliente.setNumero(c.getString(c.getColumnIndex("numero")));
-        cliente.setSexo(c.getInt(c.getColumnIndex("sexo")));
-        cliente.setCidade(c.getString(c.getColumnIndex("cidade")));
         cliente.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
         try {
             calendar.setTime(dateFormat.parse(c.getString(c.getColumnIndex("dataNasc"))));
@@ -148,7 +113,7 @@ public class ClienteDAO extends SQLiteOpenHelper {
             calendar.setTime(new Date());
         }
         cliente.setDataNasc(calendar);
-        cliente.setEstadoCivil(EstadoCivil.valueOf(c.getString(c.getColumnIndex("estadoCivil"))));
+        cliente.setProcedimento(Procedimento.valueOf(c.getString(c.getColumnIndex("procedimento"))));
         return cliente;
     }
 }

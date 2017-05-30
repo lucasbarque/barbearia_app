@@ -15,16 +15,13 @@ import br.estacio.cadastrodeclientes.ImageCircle;
 import br.estacio.cadastrodeclientes.R;
 import br.estacio.cadastrodeclientes.model.Cliente;
 
-/**
- * Created by carlos on 03/04/17.
- */
 
 public class ClienteAdapater extends BaseAdapter {
 
     private Activity activity;
     private List<Cliente> list;
 
-    private TextView txtNomeCliente, txtFoneCliente, txtMailCliente;
+    private TextView txtNomeCliente, txtFoneCliente;
     private ImageView foto;
 
     public ClienteAdapater(Activity activity, List<Cliente> list) {
@@ -53,12 +50,10 @@ public class ClienteAdapater extends BaseAdapter {
 
         foto = (ImageView) layout.findViewById(R.id.itemFoto);
         txtNomeCliente = (TextView) layout.findViewById(R.id.txtNomeCliente);
-        txtMailCliente = (TextView) layout.findViewById(R.id.txtMailCliente);
         txtFoneCliente = (TextView) layout.findViewById(R.id.txtFoneCliente);
 
         Cliente cliente = getItem(position);
         txtNomeCliente.setText(cliente.getNome());
-        txtMailCliente.setText(cliente.getEmail());
         txtFoneCliente.setText(cliente.getFone());
         Bitmap bm;
         if (cliente.getCaminhoFoto() != null) {

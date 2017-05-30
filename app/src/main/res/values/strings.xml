@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cadastro de Clientes</string>
+    <string name="app_name">Barbearia</string>
     <string-array name="estadocivil">
         <item>Solteiro</item>
         <item>Casado</item>
