@@ -1,6 +1,7 @@
 package br.estacio.cadastrodeclientes;
 
-import android.app.Dialog;
+
+import android.app.TimePickerDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,7 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+
 import java.text.SimpleDateFormat;
+import android.icu.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,16 +38,14 @@ public class ClienteHelper {
     private EditText edtNome, edtDataNasc, edtFone;
     private Button btnSalvarCliente, btnFoto, btnChangeTime;
     private ImageView foto;
-    private TimePicker tpHorario;
     private TextView tvDisplayTime;
 
     private Spinner spinnerProcedimento;
     private List<Procedimento> procedimento;
     private ArrayAdapter<Procedimento> adapter;
     private Procedimento procedimentoSelecionado;
+    int hora, minuto, horaFinal, minutoFinal, diaFinal, mesFinal, anoFinal;
 
-    private int hora;
-    private int minuto;
 
     private Cliente cliente;
 
@@ -105,71 +106,19 @@ public class ClienteHelper {
         else {
             cliente = new Cliente();
         }
-        setCurrentTimeOnView();
-        addListenerOnButton();
-    }
-    public void setCurrentTimeOnView() {
 
-        final Calendar c = Calendar.getInstance();
-        hora = c.get(Calendar.HOUR_OF_DAY);
-        minuto = c.get(Calendar.MINUTE);
-
-        // set current time into textview
-        tvDisplayTime.setText(
-                new StringBuilder().append(pad(hora))
-                        .append(":").append(pad(minuto)));
-
-        // set current time into timepicker
-        tpHorario.setCurrentHour(hora);
-        tpHorario.setCurrentMinute(minuto);
-
-    }
-
-    public void addListenerOnButton() {
         btnChangeTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                activity.showDialog();
+            public void onClick(View view) {
+
             }
         });
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case TIME_DIALOG_ID:
-                // set time picker as current time
-                return new TimePickerDialog(this,
-                        timePickerListener, hour, minute,false);
 
-        }
-        return null;
-    }
 
-    private TimePickerDialog.OnTimeSetListener timePickerListener =
-            new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker view, int selectedHour,
-                                      int selectedMinute) {
-                    hour = selectedHour;
-                    minute = selectedMinute;
 
-                    // set current time into textview
-                    tvDisplayTime.setText(new StringBuilder().append(pad(hour))
-                            .append(":").append(pad(minute)));
 
-                    // set current time into timepicker
-                    timePicker1.setCurrentHour(hour);
-                    timePicker1.setCurrentMinute(minute);
-
-                }
-            };
-
-    private static String pad(int c) {
-        if (c >= 10)
-            return String.valueOf(c);
-        else
-            return "0" + String.valueOf(c);
-    }
 
     public Cliente carregaDadosDaTela() {
         cliente.setNome(edtNome.getText().toString());
@@ -218,9 +167,32 @@ public class ClienteHelper {
         }
     }
 
+
+
+
     public void onDateSet(DatePicker view, int year, int month, int day) {
+        diaFinal = day;
+        mesFinal = month;
+        anoFinal = year;
+
+
         Calendar cal = new GregorianCalendar(year, month, day);
         setDate(cal);
+
+        Calendar c = Calendar.getInstance();
+        hora = c.get(Calendar.HOUR_OF_DAY);
+        minuto = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(activity, activity, hora, minuto, DateFormat.is24HourFormat(activity));
+        timePickerDialog.show();
+    }
+
+    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+        horaFinal = i;
+        minutoFinal = i1;
+
+
+        tvDisplayTime.setText(diaFinal + "/" + mesFinal + "/" + anoFinal + "\n" + horaFinal + ":" + minutoFinal);
     }
 
     private void setDate(Calendar calendar) {

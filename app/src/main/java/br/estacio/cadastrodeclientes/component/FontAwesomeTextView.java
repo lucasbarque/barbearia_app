@@ -5,9 +5,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/**
- * Created by carlos on 6/26/16.
- */
+
 public class FontAwesomeTextView extends TextView {
     public FontAwesomeTextView(Context context) {
         super(context);

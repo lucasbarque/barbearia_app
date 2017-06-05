@@ -5,9 +5,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-/**
- * Created by carlos on 12/04/17.
- */
+
 
 public class ImageCircle {
 

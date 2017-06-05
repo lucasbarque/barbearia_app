@@ -1,8 +1,5 @@
 package br.estacio.cadastrodeclientes;
 
-/**
- * Created by carlos on 6/3/15.
- */
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;

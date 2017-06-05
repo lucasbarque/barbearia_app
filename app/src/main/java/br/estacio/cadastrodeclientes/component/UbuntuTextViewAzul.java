@@ -6,9 +6,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/**
- * Created by carlos on 11/6/15.
- */
+
 public class UbuntuTextViewAzul extends TextView {
     public UbuntuTextViewAzul(Context context) {
         super(context);
