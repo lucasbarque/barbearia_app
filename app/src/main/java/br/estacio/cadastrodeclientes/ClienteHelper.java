@@ -18,7 +18,6 @@ import android.widget.TimePicker;
 
 
 import java.text.SimpleDateFormat;
-import android.icu.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,21 +31,15 @@ import br.estacio.cadastrodeclientes.model.Procedimento;
 public class ClienteHelper {
 
     private ClienteActivity activity;
-
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
     private EditText edtNome, edtDataNasc, edtFone;
-    private Button btnSalvarCliente, btnFoto, btnChangeTime;
+    private Button btnSalvarCliente, btnFoto;
     private ImageView foto;
-    private TextView tvDisplayTime;
-
     private Spinner spinnerProcedimento;
     private List<Procedimento> procedimento;
     private ArrayAdapter<Procedimento> adapter;
     private Procedimento procedimentoSelecionado;
     int hora, minuto, horaFinal, minutoFinal, diaFinal, mesFinal, anoFinal;
-
-
     private Cliente cliente;
 
     public ClienteHelper(final ClienteActivity activity) {
@@ -58,8 +51,6 @@ public class ClienteHelper {
         edtNome = (EditText) activity.findViewById(R.id.edtNome);
         edtFone = (EditText) activity.findViewById(R.id.edtFone);
         edtDataNasc = (EditText) activity.findViewById(R.id.edtDataNasc);
-        tvDisplayTime = (TextView) activity.findViewById(R.id.tvTime);
-        btnChangeTime = (Button) activity.findViewById(R.id.btnChangeTime);
         edtDataNasc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,13 +97,6 @@ public class ClienteHelper {
         else {
             cliente = new Cliente();
         }
-
-        btnChangeTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
 
@@ -171,11 +155,6 @@ public class ClienteHelper {
 
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        diaFinal = day;
-        mesFinal = month;
-        anoFinal = year;
-
-
         Calendar cal = new GregorianCalendar(year, month, day);
         setDate(cal);
 
@@ -183,16 +162,13 @@ public class ClienteHelper {
         hora = c.get(Calendar.HOUR_OF_DAY);
         minuto = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(activity, activity, hora, minuto, DateFormat.is24HourFormat(activity));
+        TimePickerDialog timePickerDialog = new TimePickerDialog(activity, activity, hora, minuto, true);
         timePickerDialog.show();
     }
 
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         horaFinal = i;
         minutoFinal = i1;
-
-
-        tvDisplayTime.setText(diaFinal + "/" + mesFinal + "/" + anoFinal + "\n" + horaFinal + ":" + minutoFinal);
     }
 
     private void setDate(Calendar calendar) {
